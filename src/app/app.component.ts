@@ -131,7 +131,7 @@ export class AppComponent implements OnInit {
       return { column };
     });
 
-    // columns.forEach((column) => {
+    // this.secondaryColumns = this.columns.forEach((column) => {
     //     const [parent, child] = column.includes('::') ? column.split('::') : [column, null];
     //     const currColumn = result.find((item) => item.column === parent);
 
@@ -143,6 +143,10 @@ export class AppComponent implements OnInit {
     //       result.push({ column: parent, children: child ? [child] : [] });
     //     }
     //   });
+
+    this.secondaryColumns = this.columns.map((column) => {
+      const [parent, child];
+    });
 
     this.secondaryColumns = [].concat(
       ...this.columns.map((column) => column.children ?? [null])
