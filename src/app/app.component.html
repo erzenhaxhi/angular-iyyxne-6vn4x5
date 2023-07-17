@@ -55,7 +55,7 @@
         (click)="onClick(item)"
       >
         <td tuiTd [ngStyle]="parseStyle(item, level)">{{ item?.name }}</td>
-        <td tuiTd>{{ item?.age || '-' }}</td>
+        <td tuiTd>{{ item?.age || '--' }}</td>
       </tr>
       <ng-container *ngIf="item.children && item?.visible">
         <ng-container *ngFor="let _item of item.children">
