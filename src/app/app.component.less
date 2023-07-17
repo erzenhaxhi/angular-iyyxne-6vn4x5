@@ -1,0 +1,25 @@
+table {
+    width: 100%;
+}
+
+td {
+    width: 100px;
+}
+
+.parent {
+    
+    td {
+        background-color: #dfdede;
+        cursor: pointer;
+    }
+
+    td:not(:last-child) {
+        border-right: none;
+    }
+}
+
+.space {
+    td:first-child {
+        padding-left: 20px;
+    }
+}
