@@ -1,39 +1,30 @@
-<!-- <table tuiTable>
+<table tuiTable>
     <thead tuiThead>
+      <!-- <tr tuiThGroup>
+        <th tuiTh colspan="2">Name</th>
+      </tr>
       <tr tuiThGroup>
-        <th tuiTh>Name</th>
-        <th tuiTh>Age</th>
+        <th tuiTh>First name</th>
+        <th tuiTh>Last name</th>
+      </tr> -->
+
+      <tr tuiThGroup>
+        <th tuiTh *ngFor="column of columns">Name</th>
+      
       </tr>
     </thead>
   
     <tbody tuiTbody>
-        <ng-container *ngFor="let item of data">
+        <!-- <ng-container *ngFor="let item of data">
             <tr class="tui-table__tr" [class.parent]="item.children" (click)="onClick(item)"> 
                 <td tuiTd>{{item?.name}}</td>
                 <td tuiTd>{{item?.age || '-'}}</td>
             </tr>
-            <ng-container *ngIf="item.visible">
-                <ng-container *ngFor="let _item of item.children">
-                    <tr class="tui-table__tr" [class.parent]="_item.children" (click)="onClick(_item)"> 
-                        <td tuiTd>{{_item?.name}}</td>
-                        <td tuiTd>{{_item?.age || '-'}}</td>
-                    </tr>
-    
-                    <ng-container *ngIf="_item.visible">
-                        <ng-container *ngFor="let __item of _item.children">
-                            <tr class="tui-table__tr" [class.parent]="__item.children" (click)="onClick(__item)"> 
-                                <td tuiTd>{{__item?.name}}</td>
-                                <td tuiTd>{{__item?.age || '-'}}</td>
-                            </tr>
-                        </ng-container>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
-        </ng-container>
+        </ng-container> -->
     </tbody>
-</table> -->
+</table>
 
-<table tuiTable>
+<!-- <table tuiTable>
   <thead tuiThead>
     <tr tuiThGroup>
       <th tuiTh>Name</th>
@@ -69,4 +60,4 @@
       </ng-container>
     </ng-template>
   </tbody>
-</table>
+</table> -->
