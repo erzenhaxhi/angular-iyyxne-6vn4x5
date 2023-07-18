@@ -131,6 +131,23 @@ export class AppComponent implements OnInit {
       return { column };
     });
 
+    this.secondaryColumns = [];
+
+    this.columns.forEach((column) => {
+      if (column.children) {
+        column.children.forEach((childColumn) => {
+          // const [parent, child] = childColumn.split('::');
+          // const existingColumn = this.secondaryColumns.find(c => c.)
+          this.secondaryColumns.push(childColumn);
+        });
+      } else {
+        this.secondaryColumns.push(null);
+      }
+    });
+
+    console.log(this.columns);
+    console.log(this.secondaryColumns);
+
     // this.secondaryColumns = this.columns.forEach((column) => {
     //     const [parent, child] = column.includes('::') ? column.split('::') : [column, null];
     //     const currColumn = result.find((item) => item.column === parent);
@@ -143,17 +160,6 @@ export class AppComponent implements OnInit {
     //       result.push({ column: parent, children: child ? [child] : [] });
     //     }
     //   });
-
-    this.secondaryColumns = this.columns.map((column) => {
-      const [parent, child];
-    });
-
-    this.secondaryColumns = [].concat(
-      ...this.columns.map((column) => column.children ?? [null])
-    );
-
-    console.log(this.columns);
-    console.log(this.secondaryColumns);
   }
 
   onClick(item) {
