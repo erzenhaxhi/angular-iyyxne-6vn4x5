@@ -1,13 +1,5 @@
 <table tuiTable>
   <thead tuiThead>
-    <!-- <tr tuiThGroup>
-        <th tuiTh colspan="2">Name</th>
-      </tr>
-      <tr tuiThGroup>
-        <th tuiTh>First name</th>
-        <th tuiTh>Last name</th>
-      </tr> -->
-
     <tr tuiThGroup>
       <th
         tuiTh
@@ -18,54 +10,83 @@
       </th>
     </tr>
     <tr tuiThGroup>
-      <th tuiTh *ngFor="let column of secondaryColumns">{{ column }}</th>
+      <th tuiTh *ngFor="let column of secondaryColumns">{{ column.value }}</th>
     </tr>
   </thead>
 
   <tbody tuiTbody>
     <!-- <ng-container *ngFor="let item of data">
-            <tr class="tui-table__tr" [class.parent]="item.children" (click)="onClick(item)"> 
-                <td tuiTd>{{item?.name}}</td>
-                <td tuiTd>{{item?.age || '-'}}</td>
-            </tr>
-        </ng-container> -->
+      <ng-container
+        *ngTemplateOutlet="row; context: { $implicit: item, level: 0 }"
+      ></ng-container>
+    </ng-container> -->
+
+    <ng-container *ngFor="let item of data_.children">
+      <ng-container
+        *ngTemplateOutlet="row1; context: { $implicit: item, level: 0 }"
+      ></ng-container>
+      <!-- <tr class="tui-table__tr" [class.parent]="item.children">
+        <ng-container *ngIf="item.subtotals">
+          <ng-container *ngFor="let column of secondaryColumns; let i = index">
+            <td tuiTd *ngIf="i === 0">{{ item?.name }}</td>
+            <td tuiTd *ngIf="i > 0">
+              {{ getTotalValue(column, item.subtotals) }}
+            </td>
+          </ng-container>
+        </ng-container>
+      </tr> -->
+    </ng-container>
   </tbody>
 </table>
 
-<!-- <table tuiTable>
-  <thead tuiThead>
-    <tr tuiThGroup>
-      <th tuiTh>Name</th>
-      <th tuiTh>Age</th>
-    </tr>
-  </thead>
+<ng-template #row1 let-item let-level="level">
+  <tr
+    class="tui-table__tr"
+    [class.parent]="item.children"
+    (click)="onClick(item)"
+  >
+    <ng-container *ngIf="item.subtotals">
+      <ng-container *ngFor="let column of secondaryColumns; let i = index">
+        <td tuiTd *ngIf="i === 0" [ngStyle]="parseStyle(level)">
+          {{ item?.name }}
+        </td>
+        <td tuiTd *ngIf="i > 0">
+          {{ getTotalValue(column, item.subtotals) }}
+        </td>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="item.values">
+      <td tuiTd [ngStyle]="parseStyle(level)">{{ item.name }}</td>
+      <td tuiTd *ngFor="let value of item.values">{{ value || '-' }}</td>
+    </ng-container>
+  </tr>
 
-  <tbody tuiTbody>
-    <ng-container *ngFor="let item of data">
+  <ng-container *ngIf="item.children && item?.visible">
+    <ng-container *ngFor="let _item of item.children">
       <ng-container
-        *ngTemplateOutlet="test; context: { $implicit: item, level: 0 }"
+        *ngTemplateOutlet="
+          row1;
+          context: { $implicit: _item, level: level + 1 }
+        "
       ></ng-container>
     </ng-container>
+  </ng-container>
+</ng-template>
 
-    <ng-template #test let-item let-level="level">
-      <tr
-        class="tui-table__tr"
-        [class.parent]="item.children"
-        (click)="onClick(item)"
-      >
-        <td tuiTd [ngStyle]="parseStyle(item, level)">{{ item?.name }}</td>
-        <td tuiTd>{{ item?.age || '--' }}</td>
-      </tr>
-      <ng-container *ngIf="item.children && item?.visible">
-        <ng-container *ngFor="let _item of item.children">
-          <ng-container
-            *ngTemplateOutlet="
-              test;
-              context: { $implicit: _item, level: level + 1 }
-            "
-          ></ng-container>
-        </ng-container>
-      </ng-container>
-    </ng-template>
-  </tbody>
-</table> -->
+<ng-template #row let-item let-level="level">
+  <tr
+    class="tui-table__tr"
+    [class.parent]="item.children"
+    (click)="onClick(item)"
+  >
+    <td tuiTd [ngStyle]="parseStyle(level)">{{ item?.name }}</td>
+    <td tuiTd>{{ item?.age || '--' }}</td>
+  </tr>
+  <ng-container *ngIf="item.children && item?.visible">
+    <ng-container *ngFor="let _item of item.children">
+      <ng-container
+        *ngTemplateOutlet="row; context: { $implicit: _item, level: level + 1 }"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
