@@ -15,31 +15,15 @@
   </thead>
 
   <tbody tuiTbody>
-    <!-- <ng-container *ngFor="let item of data">
+    <ng-container *ngFor="let item of data.children">
       <ng-container
         *ngTemplateOutlet="row; context: { $implicit: item, level: 0 }"
       ></ng-container>
-    </ng-container> -->
-
-    <ng-container *ngFor="let item of data_.children">
-      <ng-container
-        *ngTemplateOutlet="row1; context: { $implicit: item, level: 0 }"
-      ></ng-container>
-      <!-- <tr class="tui-table__tr" [class.parent]="item.children">
-        <ng-container *ngIf="item.subtotals">
-          <ng-container *ngFor="let column of secondaryColumns; let i = index">
-            <td tuiTd *ngIf="i === 0">{{ item?.name }}</td>
-            <td tuiTd *ngIf="i > 0">
-              {{ getTotalValue(column, item.subtotals) }}
-            </td>
-          </ng-container>
-        </ng-container>
-      </tr> -->
     </ng-container>
   </tbody>
 </table>
 
-<ng-template #row1 let-item let-level="level">
+<ng-template #row let-item let-level="level">
   <tr
     class="tui-table__tr"
     [class.parent]="item.children"
@@ -61,28 +45,9 @@
     </ng-container>
   </tr>
 
-  <ng-container *ngIf="item.children && item?.visible">
-    <ng-container *ngFor="let _item of item.children">
-      <ng-container
-        *ngTemplateOutlet="
-          row1;
-          context: { $implicit: _item, level: level + 1 }
-        "
-      ></ng-container>
-    </ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #row let-item let-level="level">
-  <tr
-    class="tui-table__tr"
-    [class.parent]="item.children"
-    (click)="onClick(item)"
+  <ng-container
+    *ngIf="item.children && (item?.visible || !item.hasOwnProperty('visible'))"
   >
-    <td tuiTd [ngStyle]="parseStyle(level)">{{ item?.name }}</td>
-    <td tuiTd>{{ item?.age || '--' }}</td>
-  </tr>
-  <ng-container *ngIf="item.children && item?.visible">
     <ng-container *ngFor="let _item of item.children">
       <ng-container
         *ngTemplateOutlet="row; context: { $implicit: _item, level: level + 1 }"

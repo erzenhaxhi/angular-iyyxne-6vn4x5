@@ -12,52 +12,7 @@ interface PivotTableColumn {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  data: any = [
-    {
-      name: '1',
-      children: [
-        { name: '[1] 1', age: 10 },
-        {
-          name: '[1] 2',
-          age: '[1] 2',
-          children: [
-            {
-              name: '[1] [2] 3',
-              age: '[1] [2] 3',
-            },
-            {
-              name: '[1] [2] 3',
-              age: '[1] [2] 3',
-              children: [
-                {
-                  name: '[1] [2] [3] 4',
-                  age: '[1] [2] [3] 4',
-                },
-                {
-                  name: '[1] [2] [3] 4',
-                  age: '[1] [2] [3] 4',
-                  children: [
-                    { name: '[1] [2] [3] [4] 5', age: '[1] [2] [3] [4] 5' },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: '2',
-      children: [
-        {
-          name: '[2] 2',
-          age: '[2] 2',
-        },
-      ],
-    },
-  ];
-
-  data_: any = {
+  data: any = {
     children: [
       {
         name: 'Transactions',
@@ -121,14 +76,13 @@ export class AppComponent implements OnInit {
   secondaryColumns: any[] = [];
 
   ngOnInit() {
-    console.log(this.data_.children);
     this.generateColumns();
     this.generateSecondaryColumns();
   }
 
   generateColumns() {
     this.columns = [];
-    this.data_.columns.forEach((column) => {
+    this.data?.columns?.forEach((column) => {
       const separator = '::';
       if (column.includes(separator)) {
         const [parent, child] = column.split(separator);
@@ -168,8 +122,7 @@ export class AppComponent implements OnInit {
   }
 
   onClick(item) {
-    item.visible = !item.visible ?? true;
-    console.log(item);
+    item.visible = item.hasOwnProperty('visible') ? !item.visible : false;
   }
 
   parseStyle(level: number) {
