@@ -85,35 +85,36 @@ export class AppComponent implements OnInit {
             ],
             name: 'Floor 9',
             subtotals: {
-              'zone_air_temperature_setpoint::AVG(zone_air_temperature_setpoint)': 70.50777604976672,
-              'zone_air_temperature_setpoint::MIN(zone_air_temperature_setpoint)': 72.50777604976672,
-              'zone_air_temperature_sensor::AVG(zone_air_temperature_sensor)': 72.4647953961239,
+              'zone_setpoint::AVG(zone_setpoint)': 70.50777604976672,
+              'zone_setpoint::MIN(zone_setpoint)': 72.50777604976672,
+              'zone_sensor::AVG(zone_sensor)': 72.4647953961239,
             },
           },
         ],
         name: 'Transactions',
         subtotals: {
-          'zone_air_temperature_setpoint::AVG(zone_air_temperature_setpoint)': 70.50777604976672,
-          'zone_air_temperature_setpoint::MIN(zone_air_temperature_setpoint)': 73.50777604976672,
-          'zone_air_temperature_sensor::AVG(zone_air_temperature_sensor)': 72.4647953961239,
+          'zone_setpoint::AVG(zone_setpoint)': 70.50777604976672,
+          'zone_setpoint::MIN(zone_setpoint)': 73.50777604976672,
+          'zone_sensor::AVG(zone_sensor)': 72.4647953961239,
         },
       },
     ],
     name: 'root',
     totals: {
-      'zone_air_temperature_setpoint::AVG(zone_air_temperature_setpoint)': 70.50777604976672,
-      'zone_air_temperature_setpoint::MIN(zone_air_temperature_setpoint)': 71.50777604976672,
-      'zone_air_temperature_sensor::AVG(zone_air_temperature_sensor)': 72.4647953961239,
+      'zone_setpoint::AVG(zone_setpoint)': 70.50777604976672,
+      'zone_setpoint::MIN(zone_setpoint)': 71.50777604976672,
+      'zone_sensor::AVG(zone_sensor)': 72.4647953961239,
     },
     columns: [
-      'building_name, area_name, device_name',
+      'building_name',
       // 'building_name',
       // 'area_name',
       // 'device_name',
       'FIRST(device_template_name)',
-      'zone_air_temperature_setpoint::AVG(zone_air_temperature_setpoint)',
-      'zone_air_temperature_setpoint::MIN(zone_air_temperature_setpoint)',
-      'zone_air_temperature_sensor::AVG(zone_air_temperature_sensor)',
+      'zone_setpoint::AVG(zone_setpoint)',
+      'zone_setpoint::MIN(zone_setpoint)',
+      'zone_setpoint::MAX(zone_setpoint)',
+      'zone_sensor::AVG(zone_sensor)',
     ],
   };
 
@@ -121,45 +122,40 @@ export class AppComponent implements OnInit {
   secondaryColumns: any[] = [];
 
   ngOnInit() {
-    this.columns = this.data_.columns.map((column) => {
+    this.generateColumns();
+    this.generateSecondaryColumns();
+  }
+
+  generateColumns() {
+    this.columns = [];
+    this.data_.columns.forEach((column) => {
       const separator = '::';
       if (column.includes(separator)) {
         const [parent, child] = column.split(separator);
-        return { column: parent, children: [child] };
+
+        const currentColumn = this.columns.find((c) => c.column === parent);
+        if (currentColumn) {
+          currentColumn.children.push(child);
+        } else {
+          this.columns.push({ column: parent, children: [child] });
+        }
+      } else {
+        this.columns.push({ column });
       }
-
-      return { column };
     });
+  }
 
+  generateSecondaryColumns() {
     this.secondaryColumns = [];
-
     this.columns.forEach((column) => {
       if (column.children) {
         column.children.forEach((childColumn) => {
-          // const [parent, child] = childColumn.split('::');
-          // const existingColumn = this.secondaryColumns.find(c => c.)
           this.secondaryColumns.push(childColumn);
         });
       } else {
         this.secondaryColumns.push(null);
       }
     });
-
-    console.log(this.columns);
-    console.log(this.secondaryColumns);
-
-    // this.secondaryColumns = this.columns.forEach((column) => {
-    //     const [parent, child] = column.includes('::') ? column.split('::') : [column, null];
-    //     const currColumn = result.find((item) => item.column === parent);
-
-    //     if (currColumn) {
-    //       if (child) {
-    //         currColumn.children.push(child);
-    //       }
-    //     } else {
-    //       result.push({ column: parent, children: child ? [child] : [] });
-    //     }
-    //   });
   }
 
   onClick(item) {

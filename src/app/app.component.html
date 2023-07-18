@@ -1,6 +1,6 @@
 <table tuiTable>
-    <thead tuiThead>
-      <!-- <tr tuiThGroup>
+  <thead tuiThead>
+    <!-- <tr tuiThGroup>
         <th tuiTh colspan="2">Name</th>
       </tr>
       <tr tuiThGroup>
@@ -8,20 +8,28 @@
         <th tuiTh>Last name</th>
       </tr> -->
 
-      <tr tuiThGroup>
-        <th tuiTh *ngFor="column of columns">Name</th>
-      
-      </tr>
-    </thead>
-  
-    <tbody tuiTbody>
-        <!-- <ng-container *ngFor="let item of data">
+    <tr tuiThGroup>
+      <th
+        tuiTh
+        *ngFor="let column of columns"
+        [attr.colspan]="column?.children?.length || 1"
+      >
+        {{ column.column }}
+      </th>
+    </tr>
+    <tr tuiThGroup>
+      <th tuiTh *ngFor="let column of secondaryColumns">{{ column }}</th>
+    </tr>
+  </thead>
+
+  <tbody tuiTbody>
+    <!-- <ng-container *ngFor="let item of data">
             <tr class="tui-table__tr" [class.parent]="item.children" (click)="onClick(item)"> 
                 <td tuiTd>{{item?.name}}</td>
                 <td tuiTd>{{item?.age || '-'}}</td>
             </tr>
         </ng-container> -->
-    </tbody>
+  </tbody>
 </table>
 
 <!-- <table tuiTable>
